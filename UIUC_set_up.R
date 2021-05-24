@@ -198,6 +198,250 @@ library(gplots)
 ## LECTURE 3 ----
 # BASIC PRINCIPLES OF RESPONSE TO SELECTION
 
+# response to selection = genetic gain
+# R = gt - gt-1
+# R = delta g
+
+# Prediction of selection reponse hinges on 2 basic principles
+# Principle 1
+#   - breeding value can be predicted from phenotypic value
+#     using the linear regression equation
+#   - linear regression: breeding value vs phenotypic value
+#   - same principle applies to groups of individuals as individuals
+# Principle 2
+#   - average true or predicted breeding value of two parents
+#     = average breeding value of their progeny
+
+# HOW CAN WE PREDICT SELECTION RESPONSE USING THESE PRINCIPLES?
+
+# breeding values of population 0, truncate selection
+#   - select everything w/ phenotype above value in normal distribution
+
+# regression coefficient for the regression of breeding value
+#   on phenotype or selection index values
+
+# The Breeder's equation
+#   R = rxa * theta-a * k
+# response per breeding cycle = selection accurary *
+#   additive genetic standard deviation * selection intensity
+
+# Selection intensity = k = z / p
+# z = height of the distribution at the truncation point
+# p = proportion severed (truncated portion)
+
+# Expected gain per unit time
+# R / L
+# L = time (usually years) required to complete one breeding cycle
+#   - expected slope of tehr egression of breeding value on time
+
+# Assumptions
+#   - discrete generations
+#   - constant variance (infinitesimal model), accuracy, intensity
+#   - truncation selection
+
+# Key points
+#   - breeder's equation can be derived from two basic principles
+#   - gain from selection per unit time depends on selection
+#     accuracy, additive genetic standard deviation, selection
+#     intensity, and length of breeding cycle
+#   - breeders' equation makes several assumptions that are
+#     often violated in reality
+
+# Exercise
+# population mean = 10, standard dev = 9
+# mean of selected = 17, truncation point = 15
+# percent selected = 20%
+
+# R = pop mean - mean of selected
+# R = 17 - 10 = 7
+# R = 7?
+
+## LECTURE 4 ----
+# GENOMIC SELECTION
+
+# OBJECTIVES
+#   - learn what is genomic selection and its application to breeding
+#   - learn basic guidelines for implementing genomic selection
+#   - understand GBLUP and RR-BLUP
+
+# Genomic Selection
+#   - GS is using genome-wide marker data to help predict
+#     breeding value for the purpose of selection
+#   - GS is useful for traits conferred by at least 3 loci
+#   - GS is a disruptive breeding technology
+#       - it will change how the breeding program operates if
+#         done correctly
+
+# Why Gs?
+#   - increase selection accuracy
+#   - reduce the breeding cycle time bc parents can be selected
+#     sooner
+
+# GS de-couples population improvement and variety development
+#   - generating "evaluation units", lines, hybrids, or clones
+#     is required for releasing varieties and also to generate
+#     data used in GS model
+
+# GS selection model training set
+#   - the model training set refers to the set of genotypes
+#     used in the GS model that have phenotypes for the primary
+#     traits of interest
+#   - model training set also referred to as training pop,
+#     calibration set, reference set
+#   - the size and composition of the training set is the most
+#     important factor affecting GS accuracy
+
+# Training sets and Selection Candidates
+#   - model training set can include your selection candidates
+#   - model traiing set may not include your selection candidates
+
+# What makes a good training set?
+#   - data should be relevant: from target pop of environments
+#     on primary traits of interest at minimum
+#   - data should be meaningful, collected consistently w/
+#     best practices
+#   - germplasm used for model training set should be closely
+#     related to your selection candidates
+
+# Updating the training set
+#   - germplasm used for model training set should be closely
+#     related to selection candidates
+#   - with each breeding cycle, traning set will become less
+#     predictive as genetic realationship to selection candidates
+#     decreases, therefore the training set must be continually
+#     updated
+
+# Training Set Size
+#   - incresaing size will increase selection accuracy
+#   - helps maintain accuracy over cycles of selection
+#   - number of individuals needed to achieve high GS accuracy
+#     depends on effective pop size and heritability of trait
+#     of interest
+
+# Expected accuracy based on training set size 
+#   and population history
+#   - Me is the # of independent chrosome segments
+#   - Np is the training set size
+
+# Number of genome-wide markers required
+#   - depends on rate of LD decay in the population
+#   - need at least one marker per segregating 
+#     segment of the genome
+#   - 10 NeL markers required to achieve high accuracies,
+#     where L is the genome size in Morgans
+#   - NeL markers could be used to achieve moderate to high accuracies
+
+# Choice of Prediction Model
+#   - genomic selection w/ Genome-wide markers = Quant
+#       - RR/G-BLUP
+#   - vs. Marker Assisted Selection w/ QTL linked markers = Mendelian
+#       - Multiple linear regression
+#   - Bayesian Lasso Bayes mid point between the two
+
+# GBLUP or RR-BLUP work well in most cases
+#   - GBLUP is equivalent to RR-BLUP and assumes 
+#     infinitesimal model of inheritance
+#   - across range of datasets GBLUP has been shown to perform well
+
+# GBLUP
+#   - Genomic Relationship Matrix (G)
+#       - will not be analogous to a pedigree relationship matrix
+#       - inbreeding coefficients cannot be obtained from
+#         diagonal of B and estimates of genetic variance
+#         will not tell us the additive genetic variance in base pop
+
+# Model Fitting in Two Steps
+#   - reduces computational complexity
+#   Step 1: generate means by environment or across all
+#       environments using a mixed model assuming genotypes
+#       are not related
+#   Step 2: Fit the gS model using the means generated in
+#       STep 1 and be sure to account for heterogenous error
+#       variances
+
+# Implementing GS
+#   - Fitting the model is the easiest part
+#   1. Use a database
+#   2. Start by genotyping everything that is being phenotyped
+#       and selected based on a GS model including all available
+#       data
+#   3. Avoid selection w/o recording phenotypic data
+#   4. Begin genotyping and selecting individuals prior to
+#       phenotyping when enough genotypic and phenotypic data
+#       has been accumulated
+
+# True or False?
+# The goal of GS is to predict phenotypic value?
+# FALSE, predict BREEDING value
+
+
+## LECTURE 5 ----
+# APPLICATION OF GS AND FACTORS AFFECTING ITS SUCCESS
+
+#OBJECTIVES
+#   - learn different ways GS can be used to improve rates
+#       of genetic gain
+#   - Understand what are the critical factors affecting
+#     success of a GS strategy
+
+# Application of GS
+# 2 types
+#   - rapid cycle recurrent selection
+#     apply GS among non-inbred selection candidates
+#     challenging, greater potential to accelerate genetic gain
+#     requires fast, cheap genotyping and a very large training set
+#   - GS among lines
+#     apply GS after creating a line
+#     less potential to accelerate genetic gain, easier to
+#     implement
+
+# Can do both rapid cycle GS + GS among lines
+#   - L = 0.5 years min
+#   - all during line advancement you're using rapid GS techniques
+#   - potential benefits:
+#       - Faster levels of genetic gain w/i breeding programs
+
+# GS among lines: strategies
+#   - genotype more lines than are phenotyped
+#       - phenotype using a conventional testing strategy
+#       - phenotyping using a sparse testing strategy
+#   - genotype and phenotype all lines
+#       - phenotype using a conventional testing strategy
+#       - phenotype using a sparse testing strategy
+
+# GS among lines: optimal testing strategy depends on costs
+#   - low genotyping cost relative to phenotyping
+#     better to genotype more lines, use less reps on each,
+#     and possibly not phenotype some lines
+#   - similar genotyping costs relative to phenotyping
+#     better to have some reps, fewer lines, and phenotype all
+#     lines that have been genotyped
+
+# Factors affecting success of a GS program
+#   - strategy
+#   - operations (is it well equipped to carry out strategy)
+
+# What makes a Good GS Strategy?
+#   - GS applied to all traits of interest, especially low
+#     heritability traits
+#   - involves phenotyping a large # of individuals from the
+#     breeding program every year for model training and updating
+#   - uses genomic prediction to reduce the breeding cycle time
+#       - parent selection done based on GEBVs
+#   - Allocates testing resources appropriately 
+#       - possibly using sparese testing
+#   - involves cheap genotyping w/ an adequate number of markers
+
+# What are critical operational factors?
+#   - phenotyping: as accurate as possible given allocated resources
+#   - data management: relational database used for all phenotypic
+#       and marker data
+#   - germplasm management: the right seed gets in the right envelope
+#   - fast turn around time of inexpensive marker data
+
+## Example ----
+
+load("Breeding Population Data.RData")
 
 
 
